@@ -13,7 +13,7 @@ const Header: FC<HeaderProps> = ({}) => {
     <header className={cn(styles.appHeader)}>
       <UiContainer className={cn(styles.container)}>
         <Link href={'/'} className={cn('font-semibold')}>
-          Geekium
+          Number one Numbers
         </Link>
 
         <article className={cn(styles.socialMedia)}>
