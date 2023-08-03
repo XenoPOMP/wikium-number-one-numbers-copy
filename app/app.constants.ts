@@ -1,3 +1,3 @@
 export const AppConstants = {
-  appName: 'Next Template',
+  appName: 'Найди число',
 };
