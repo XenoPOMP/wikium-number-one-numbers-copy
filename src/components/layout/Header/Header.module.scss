@@ -1,0 +1,33 @@
+@import "src/styles/templates";
+
+header.appHeader {
+  @apply py-[.825em];
+
+  background: #6039aa;
+  color: white;
+  font-size: 1rem; // 1em = 20px
+
+  section.container {
+    @extend %flexCenter;
+
+    justify-content: space-between;
+
+    article.socialMedia {
+      a {
+        cursor: pointer;
+
+        &:hover {
+          svg {
+            filter: brightness(1);
+          }
+        }
+
+        svg {
+          height: 100%;
+          filter: brightness(.85);
+          transition: filter .15s ease;
+        }
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Inter, Open_Sans } from 'next/font/google';
 
 import { AppConstants } from '@/app/app.constants';
 import Footer from '@/src/components/layout/Footer/Footer';
@@ -8,7 +8,9 @@ import ReduxProvider from '@/src/redux/ReduxProvider';
 
 import './globals.scss';
 
-const inter = Inter({ subsets: ['latin'] });
+const openSans = Open_Sans({
+  subsets: ['latin', 'cyrillic'],
+});
 
 export const metadata: Metadata = {
   title: {
@@ -25,13 +27,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body className={inter.className}>
+      <body className={openSans.className}>
         <ReduxProvider>
           <Header />
 
           {children}
-
-          <Footer />
         </ReduxProvider>
       </body>
     </html>
