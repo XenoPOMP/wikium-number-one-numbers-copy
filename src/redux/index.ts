@@ -19,17 +19,23 @@ import {
 import storage from 'redux-persist/lib/storage';
 
 import appSettingsSlice from '@/src/redux/reducers/appSettingsSlice';
+import gameCycleSlice from '@/src/redux/reducers/gameCycle.slice';
 
 /** App`s root reducer. */
 const rootReducer = combineReducers({
   appSettings: appSettingsSlice,
+  gameCycle: gameCycleSlice,
 });
 
 /** Redux-persist config. */
 const persistConfig = getPersistConfig({
   key: 'root',
   storage,
-  blacklist: ['appSettings.appVersion', 'appSettings.appName'],
+  blacklist: [
+    'appSettings.appVersion',
+    'appSettings.appName',
+    'gameCycle.stage',
+  ],
   rootReducer,
 });
 
