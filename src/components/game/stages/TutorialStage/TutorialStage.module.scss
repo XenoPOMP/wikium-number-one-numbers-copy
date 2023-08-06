@@ -1,0 +1,17 @@
+@import "src/styles/templates";
+
+article.tutorial {
+  @apply grid;
+
+  font-size: 1em;
+  grid-template-rows: 6.8em 1fr;
+
+  & * {
+    z-index: 5;
+  }
+
+  .heading {
+    position: relative;
+    background: url('../../../../../public/numbers-image-1.svg');
+  }
+}
