@@ -18,10 +18,12 @@ const gameCycleSlice = createSlice({
   name: 'gameCycle',
   initialState,
   reducers: {
-    simpleAction(state, action: ReduxAction<any>) {},
+    nextStage(state, action: ReduxAction<undefined>) {
+      state.stage++;
+    },
   },
 });
 
 export default gameCycleSlice.reducer;
-export const { simpleAction } = gameCycleSlice.actions;
+export const { nextStage } = gameCycleSlice.actions;
 export const initialGameCycleState = gameCycleSlice.getInitialState();
