@@ -3,23 +3,26 @@ import cn from 'classnames';
 import { FC } from 'react';
 
 import { AppConstants } from '@/app/app.constants';
+import BaseStage from '@/src/components/game/stages/BaseStage/BaseStage';
 
 import styles from './GameStage.module.scss';
 import type { GameStageProps } from './GameStage.props';
 
 const GameStage: FC<GameStageProps> = props => {
-  const { width, height } = AppConstants.gameSizeConstraints;
+  const { children, className } = props;
+  const { width, height, inlinePadding } = AppConstants.gameSizeConstraints;
 
   return (
-    <Stage
-      width={width}
-      height={height}
-      options={{
-        background: 'red',
-      }}
-      style={{}}
-      {...props}
-    ></Stage>
+    <BaseStage className={'flex justify-center items-center'}>
+      <Stage
+        {...props}
+        width={width - inlinePadding * 2}
+        height={height - inlinePadding * 2}
+        className={className}
+      >
+        {children}
+      </Stage>
+    </BaseStage>
   );
 };
 

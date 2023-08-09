@@ -8,6 +8,7 @@ import { CSSProperties, FC } from 'react';
 import { AppConstants } from '@/app/app.constants';
 import eyeIcon from '@/public/eye-icon.svg';
 import numbersImage from '@/public/numbers-image-1.svg';
+import BaseStage from '@/src/components/game/stages/BaseStage/BaseStage';
 import StageStep from '@/src/components/game/stages/TutorialStage/StageStep/StageStep';
 import { useGameCycle } from '@/src/hooks/useGameCycle';
 import { useAppDispatch } from '@/src/redux/hooks';
@@ -21,21 +22,11 @@ const montserrat = Montserrat({
 });
 
 const TutorialStage: FC<TutorialStageProps> = ({}) => {
-  const { width, height } = AppConstants.gameSizeConstraints;
   const { goToNextStage } = useGameCycle();
 
-  const getInlineStyles = (): Record<'article' | 'heading', CSSProperties> => {
+  const getInlineStyles = (): Record<'heading', CSSProperties> => {
     const output: ReturnType<typeof getInlineStyles> = {
-      article: {},
       heading: {},
-    };
-
-    output.article = {
-      width: `min(100%, ${width}px)`,
-      height,
-      boxShadow: '0 0 4px rgba(0 0 0 / .35)',
-      borderRadius: '.2em',
-      overflow: 'hidden',
     };
 
     output.heading = {
@@ -49,10 +40,7 @@ const TutorialStage: FC<TutorialStageProps> = ({}) => {
   const dispatch = useAppDispatch();
 
   return (
-    <article
-      className={cn(styles.tutorial, montserrat.className)}
-      style={getInlineStyles().article}
-    >
+    <BaseStage className={cn(styles.tutorial, montserrat.className)}>
       <article className={cn(styles.heading)} style={getInlineStyles().heading}>
         <h1>Найди число</h1>
 
@@ -90,7 +78,7 @@ const TutorialStage: FC<TutorialStageProps> = ({}) => {
           Далее
         </button>
       </article>
-    </article>
+    </BaseStage>
   );
 };
 

@@ -4,5 +4,6 @@ export const AppConstants = {
   gameSizeConstraints: {
     width: 700,
     height: 550,
+    inlinePadding: 40,
   },
 };

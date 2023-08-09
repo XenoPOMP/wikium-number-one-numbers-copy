@@ -1,5 +1,7 @@
 'use client';
 
+import { useCallback } from 'react';
+
 import { GameStage } from '@/src/enums/GameStage';
 import { useAppDispatch, useTypedSelector } from '@/src/redux/hooks';
 import {
@@ -18,9 +20,9 @@ export const useGameCycle = (): {
 
   const dispatch = useAppDispatch();
 
-  const goToNextStage = () => {
+  const goToNextStage = useCallback(() => {
     dispatch(nextStage());
-  };
+  }, []);
 
   return {
     currentStage: stage,
