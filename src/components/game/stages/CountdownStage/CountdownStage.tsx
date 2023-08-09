@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { FC, useEffect, useState } from 'react';
 
 import BaseStage from '@/src/components/game/stages/BaseStage/BaseStage';
-import GameStage from '@/src/components/game/stages/GameStage/GameStage';
+import BaseGameStage from '@/src/components/game/stages/GameStage/BaseGameStage';
 import EndlessTimer from '@/src/components/logic/EndlessTimer/EndlessTimer';
 import { useGameCycle } from '@/src/hooks/useGameCycle';
 
@@ -28,7 +28,7 @@ const CountdownStage: FC<CountdownStageProps> = ({}) => {
   }, [countdown]);
 
   return (
-    <GameStage usePixi={false}>
+    <BaseGameStage usePixi={false}>
       <EndlessTimer
         callback={() => {
           setCountdown(prev => prev - 1);
@@ -41,7 +41,7 @@ const CountdownStage: FC<CountdownStageProps> = ({}) => {
           {countdown}
         </div>
       </article>
-    </GameStage>
+    </BaseGameStage>
   );
 };
 

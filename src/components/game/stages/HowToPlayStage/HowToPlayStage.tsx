@@ -7,7 +7,7 @@ import { FC } from 'react';
 import { AppConstants } from '@/app/app.constants';
 import handImage from '@/public/pointer-hand.svg';
 import BaseStage from '@/src/components/game/stages/BaseStage/BaseStage';
-import GameStage from '@/src/components/game/stages/GameStage/GameStage';
+import BaseGameStage from '@/src/components/game/stages/GameStage/BaseGameStage';
 import { useGameCycle } from '@/src/hooks/useGameCycle';
 
 import styles from './HowToPlayStage.module.scss';

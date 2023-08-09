@@ -1,0 +1,98 @@
+@import "src/styles/templates";
+
+.ingame {
+  @apply pt-[3em] pb-[1.5em] px-[3.75em];
+
+  position: relative;
+  font-size: 1rem; // 1em = 20px
+  overflow: hidden;
+
+  ul.scoreDisplay {
+    @extend %flexCenter, %notSelectable;
+
+    @apply px-[1.25em] py-[.25em];
+
+    background: #94D4F4;
+    color: black;
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: .75em; // 1em = 15px
+    width: 75%;
+    justify-content: space-between;
+
+    li {
+      @extend %flexCenter;
+
+      font-size: 1em;
+      flex-direction: column;
+
+      h5 {
+        font-size: .6em;
+        font-weight: 550;
+      }
+
+      strong {
+        display: flex;
+        align-items: center;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+        gap: .3em;
+
+        .bulletDots {
+          display: flex;
+          gap: .25em;
+          height: 100%;
+
+          .bullet {
+            width: .4em;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            border: 1px solid currentColor;
+
+            transition: .15s ease;
+
+            &.selected {
+              background: currentColor;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  header {
+    @extend %flexCenter;
+
+    @apply py-[1.33em] px-[1.055em];
+
+    font-size: .9em; // 1em = 18px
+    box-shadow: 0 7px 35px 0 rgba(0,0,0,.3);
+    color: white;
+    width: 100%;
+    justify-content: space-between;
+
+    p {
+      font-weight: 600;
+
+      &.number {
+        font-size: 2.77em;
+      }
+    }
+  }
+
+  .grid {
+    $colGap: 1em;
+    $rowGap: .8em;
+
+    $blockWidth: calc((100cqw - $colGap) / 3);
+
+    margin-top: calc($colGap * 2);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
+    gap: $rowGap $colGap;
+    position: relative;
+    container-type: inline-size;
+  }
+}

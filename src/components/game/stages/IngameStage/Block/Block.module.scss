@@ -1,0 +1,20 @@
+@import "src/styles/templates";
+
+.block {
+  @extend %flexCenter, %notSelectable;
+
+  width: 100%;
+  aspect-ratio: 145.5 / 83.313;
+  font-size: 8.57cqw; // 1em = 40px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 0 15px 0 rgba(0,0,0,.3);
+  }
+
+  &.transparent {
+    opacity: .5;
+  }
+}

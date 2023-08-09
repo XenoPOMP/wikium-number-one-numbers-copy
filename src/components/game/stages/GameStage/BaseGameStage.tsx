@@ -8,7 +8,7 @@ import BaseStage from '@/src/components/game/stages/BaseStage/BaseStage';
 import styles from './GameStage.module.scss';
 import type { GameStageProps } from './GameStage.props';
 
-const GameStage: FC<GameStageProps> = props => {
+const BaseGameStage: FC<GameStageProps> = props => {
   const { children, className, usePixi } = props;
   const { width, height, inlinePadding } = AppConstants.gameSizeConstraints;
 
@@ -35,4 +35,4 @@ const GameStage: FC<GameStageProps> = props => {
   );
 };
 
-export default GameStage;
+export default BaseGameStage;
