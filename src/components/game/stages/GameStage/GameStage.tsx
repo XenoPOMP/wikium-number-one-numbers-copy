@@ -9,19 +9,28 @@ import styles from './GameStage.module.scss';
 import type { GameStageProps } from './GameStage.props';
 
 const GameStage: FC<GameStageProps> = props => {
-  const { children, className } = props;
+  const { children, className, usePixi } = props;
   const { width, height, inlinePadding } = AppConstants.gameSizeConstraints;
 
   return (
-    <BaseStage className={'flex justify-center items-center'}>
-      <Stage
-        {...props}
-        width={width - inlinePadding * 2}
-        height={height - inlinePadding * 2}
-        className={className}
-      >
-        {children}
-      </Stage>
+    <BaseStage
+      className={'flex justify-center items-center'}
+      style={{
+        padding: !usePixi ? `${inlinePadding}px` : undefined,
+      }}
+    >
+      {usePixi ? (
+        <Stage
+          {...props}
+          width={width - inlinePadding * 2}
+          height={height - inlinePadding * 2}
+          className={className}
+        >
+          {children}
+        </Stage>
+      ) : (
+        <>{children}</>
+      )}
     </BaseStage>
   );
 };

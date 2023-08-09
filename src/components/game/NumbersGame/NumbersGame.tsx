@@ -2,7 +2,7 @@
 
 import { FC } from 'react';
 
-import { AppConstants } from '@/app/app.constants';
+import CountdownStage from '@/src/components/game/stages/CountdownStage/CountdownStage';
 import HowToPlayStage from '@/src/components/game/stages/HowToPlayStage/HowToPlayStage';
 import TutorialStage from '@/src/components/game/stages/TutorialStage/TutorialStage';
 import { GameStage } from '@/src/enums/GameStage';
@@ -17,6 +17,7 @@ const NumbersGame: FC<NumbersGameProps> = ({}) => {
     <>
       {currentStage === GameStage.TUTORIAL && <TutorialStage />}
       {currentStage === GameStage.HOW_TO_PLAY && <HowToPlayStage />}
+      {currentStage === GameStage.COUNTDOWN && <CountdownStage />}
     </>
   );
 };
