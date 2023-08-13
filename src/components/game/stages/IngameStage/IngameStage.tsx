@@ -1,17 +1,21 @@
 'use client';
 
+import { Defined } from '@xenopomp/advanced-types';
 import cn from 'classnames';
 import { motion } from 'framer-motion';
 import { Montserrat } from 'next/font/google';
-import Image from 'next/image';
+import random from 'random';
+import randomItem from 'random-item';
 import { CSSProperties, FC, useEffect, useState } from 'react';
 
-import handImage from '@/public/pointer-hand.svg';
 import BaseGameStage from '@/src/components/game/stages/GameStage/BaseGameStage';
 import Block from '@/src/components/game/stages/IngameStage/Block/Block';
+import { IBlock } from '@/src/components/game/stages/IngameStage/Block/Block.props';
 import IngameContext from '@/src/components/game/stages/IngameStage/Ingame.context';
 import EndlessTimer from '@/src/components/logic/EndlessTimer/EndlessTimer';
+import Loader from '@/src/components/ui/Loader/Loader';
 import { GameStage } from '@/src/enums/GameStage';
+import useBoolean from '@/src/hooks/useBoolean';
 import { useGameCycle } from '@/src/hooks/useGameCycle';
 
 import styles from './IngameStage.module.scss';
@@ -22,27 +26,155 @@ const montserrat = Montserrat({
 });
 
 const IngameStage: FC<IngameStageProps> = ({}) => {
-  const [lastedTime, setLastedTime] = useState<number>(60 * 5);
+  /** Прошедшее время. */
+  const [lastedTime, setLastedTime] = useState<number>(60 * 0.1);
+  /** Заработанные очки. */
   const [score, setScore] = useState<number>(0);
-  const [streak, setStreak] = useState<1 | 2 | 3 | 4 | 5>(1);
+  /** Серия успешных ответов. */
+  const [streak, setStreak] = useState<number>(1);
+  /** Правильный ответ. */
   const [correctNum, setCorrectNum] = useState<number>(75);
-  const [level, setLevel] = useState<number>(4);
+  /** Текущий уровень. */
+  const [level, setLevel] = useState<number>(1);
+  /** Массив с пропсами карточек. */
+  const [blocks, setBlocks] = useState<IBlock[]>([]);
 
+  /** Цвет фона. */
   const [background, setBackground] =
     useState<CSSProperties['background']>('#4DB8ECFF');
 
+  /** Состояние загрузки игры (загружена или нет). */
+  const [gameIsLoading, toggleIsGameLoading, setIsGameLoading] =
+    useBoolean(true);
+
+  /**
+   * Хук, предоставляющий интерфейс для взаимодействия с
+   * состояниями игры.
+   */
   const { goToNextStage, currentStage } = useGameCycle();
 
+  /**
+   * Эта функция позволяет получить размеры
+   * сетки для разных уровней.
+   */
+  const getSizes = (): {
+    css: Pick<CSSProperties, 'gridTemplateColumns' | 'gridTemplateRows'>;
+    numbers: Record<'columns' | 'rows', number>;
+  } => {
+    /**
+     * Если уровень равен 4 или более, то размер сетки -
+     * 4 на 3.
+     */
+    if (level >= 4) {
+      return {
+        css: {
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          gridTemplateRows: 'repeat(3, 1fr)',
+        },
+        numbers: {
+          columns: 4,
+          rows: 3,
+        },
+      };
+    }
+
+    /**
+     * В любом другом случае размер сетки -
+     * 3 на 2.
+     */
+    return {
+      css: {
+        gridTemplateColumns: 'repeat(3, 1fr)',
+        gridTemplateRows: 'repeat(2, 1fr)',
+      },
+      numbers: {
+        columns: 3,
+        rows: 2,
+      },
+    };
+  };
+
+  /**
+   * Эта функция полностью занимается рандомной
+   * генерацией карточек, новых чисел и т.д.
+   */
+  const generateCards = () => {
+    setIsGameLoading(true);
+
+    const generateNumber = (): number => {
+      if ([1, 2].includes(level)) {
+        return random.int(1, 99);
+      }
+
+      return random.int(1, 999);
+    };
+
+    const { columns, rows } = getSizes().numbers;
+
+    const colorPool: string[] = ['#fc73b0', '#94c94d', '#8e3dcb'];
+    const extendedColorPool: typeof colorPool = [...colorPool];
+
+    const animationPool: Array<
+      Defined<Exclude<Defined<IBlock['animation']>, 'no-animation'>>
+    > = ['nothing-rotate', 'blink-nothing', 'scaleDown-nothing'];
+
+    const newCorrectNum = generateNumber();
+
+    let newBlocks: IBlock[] = new Array(columns * rows).fill(undefined);
+
+    newBlocks = newBlocks.map(() => {
+      return {
+        number: generateNumber(),
+        background: randomItem(extendedColorPool),
+        animation: randomItem(animationPool),
+      };
+    });
+
+    newBlocks[
+      randomItem<number>(
+        Object.keys(newBlocks).map(key => {
+          return parseInt(`${key}`);
+        })
+      )
+    ].number = newCorrectNum;
+
+    setBlocks(newBlocks);
+    setBackground(randomItem(colorPool));
+    setCorrectNum(newCorrectNum);
+
+    setIsGameLoading(false);
+  };
+
+  /** Отслеживаем момент окончания времени. */
   useEffect(() => {
     if (lastedTime <= 0) {
       goToNextStage();
     }
   }, [lastedTime]);
 
+  /**
+   * Генерируем новые карточки каждый раз при смене
+   * уровня.
+   */
+  useEffect(() => {
+    generateCards();
+  }, [level]);
+
+  /**
+   * Эта фунция форматирует время из формата `360 секунд`
+   * в `06:00`.
+   *
+   * @param {number} timeInSeconds           время в секундах.
+   */
   const formatTime = (timeInSeconds: number) => {
     let minutes: string = `00`;
     let seconds: string = `00`;
 
+    /**
+     * Эта функция оборачивает число в формат XX.
+     *
+     * @param {number} num      изначальное число.
+     */
     const wrapNumber = (num: number) => {
       if (num < 10) {
         return `0${num}`;
@@ -65,9 +197,32 @@ const IngameStage: FC<IngameStageProps> = ({}) => {
       value={{
         currentCorrectNum: correctNum,
         checkAnswer: answer => {
-          console.log(`Checking value: ${answer} to match ${correctNum}`);
+          /**
+           * Если ответ правильный и серия правильных
+           * ответов меньше 5, то увеличиваем серию на 1.
+           */
+          if (answer === correctNum && streak < 5) {
+            setStreak(prev => prev + 1);
+          }
 
-          // setLevel(prev => prev + 1);
+          /** Сбрасываем стрик при неправильном ответе. */
+          if (answer !== correctNum) {
+            setStreak(1);
+          }
+
+          /** Начисляем очки за правильный ответ здесь. */
+          if (answer === correctNum) {
+            const BASE_SCORE_PER_ANSWER = 41;
+
+            setScore(prev => {
+              const newValue = prev + BASE_SCORE_PER_ANSWER * streak;
+
+              return parseInt(`${newValue}`);
+            });
+          }
+
+          /** Переход на след. уровень. */
+          setLevel(prev => prev + 1);
 
           return true;
         },
@@ -172,20 +327,28 @@ const IngameStage: FC<IngameStageProps> = ({}) => {
             <div
               className={cn(styles.grid, montserrat.className)}
               style={{
-                gridTemplateColumns: level >= 4 ? `repeat(4, 1fr)` : '',
+                ...getSizes().css,
               }}
             >
-              <Block number={913} animation={'nothing-rotate'} />
-              <Block
-                background={'#fc73b0'}
-                number={614}
-                animation={'blink-nothing'}
-              />
-              <Block background={'#8e3dcb'} number={558} />
-              <Block background={'#94c94d'} number={89} />
-              <Block background={'#94c94d'} number={40} />
-              <Block background={'transparent'} number={2} />
+              {blocks.map((block, index) => {
+                const { number, background, animation } = block;
+
+                return (
+                  <Block
+                    key={`block-${index}`}
+                    number={number}
+                    background={background}
+                    animation={animation}
+                  />
+                );
+              })}
             </div>
+
+            {gameIsLoading && (
+              <div className={cn(styles.loader)}>
+                <Loader primaryColor={'black'} />
+              </div>
+            )}
           </div>
         )}
 

@@ -3,12 +3,18 @@
 .block {
   @extend %flexCenter, %notSelectable;
 
+  --column-count: 3;
+
   width: 100%;
   aspect-ratio: 145.5 / 83.313;
-  font-size: 8.57cqw; // 1em = 40px;
+  font-size: calc(8.57cqw * (3 / var(--column-count))); // 1em = 40px;
   font-weight: 600;
   color: white;
   cursor: pointer;
+
+  &.fourCols {
+    --column-count: 5;
+  }
 
   &:hover {
     box-shadow: 0 0 15px 0 rgba(0,0,0,.3);

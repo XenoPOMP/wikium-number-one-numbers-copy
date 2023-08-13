@@ -21,6 +21,8 @@
     "next": "13.4.12",
     "pixi.js": "^7.2.4",
     "postcss": "8.4.27",
+    "random": "^4.1.0",
+    "random-item": "^4.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-redux": "^8.1.1",

@@ -7,9 +7,9 @@ import IngameContext from '@/src/components/game/stages/IngameStage/Ingame.conte
 import { useGameCycle } from '@/src/hooks/useGameCycle';
 
 import styles from './Block.module.scss';
-import type { BlockProps } from './Block.props';
+import type { IBlock } from './Block.props';
 
-const Block: FC<BlockProps> = ({
+const Block: FC<IBlock> = ({
   number,
   background = '#f28e37',
   animation = 'no-animation',
@@ -18,7 +18,7 @@ const Block: FC<BlockProps> = ({
   const {} = useGameCycle();
 
   const animationVariants: Record<
-    Defined<BlockProps['animation']>,
+    Defined<IBlock['animation']>,
     Partial<
       Record<
         'block' | 'text',
@@ -41,6 +41,7 @@ const Block: FC<BlockProps> = ({
         },
       },
     },
+
     'blink-nothing': {
       block: {
         animation: {
@@ -49,7 +50,22 @@ const Block: FC<BlockProps> = ({
 
         transition: {
           repeat: Infinity,
-          duration: 0.75,
+          duration: 0.4 * 1.5,
+          ease: 'easeIn',
+        },
+      },
+    },
+
+    'scaleDown-nothing': {
+      block: {
+        animation: {
+          scale: [1, 0.75, 1],
+        },
+
+        transition: {
+          repeat: Infinity,
+          duration: 0.4 * 1.5,
+          ease: 'easeIn',
         },
       },
     },
@@ -57,17 +73,27 @@ const Block: FC<BlockProps> = ({
 
   const getAnimationVariants = (): RecordValue<typeof animationVariants> => {
     if (level < 3) {
-      // return animationVariants['no-animation'];
+      return animationVariants['no-animation'];
     }
 
     return animationVariants[animation];
+  };
+
+  const getInlineClasses = (): string => {
+    let levelClass = '';
+
+    if (level >= 4) {
+      levelClass = cn(levelClass, styles.fourCols);
+    }
+
+    return cn(levelClass);
   };
 
   return (
     <motion.div
       animate={getAnimationVariants().block?.animation}
       transition={getAnimationVariants().block?.transition}
-      className={cn(styles.block, `bg-[${background}]`)}
+      className={cn(styles.block, `bg-[${background}]`, getInlineClasses())}
       onClick={() => {
         checkAnswer(number);
       }}

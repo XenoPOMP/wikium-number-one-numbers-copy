@@ -95,4 +95,13 @@
     position: relative;
     container-type: inline-size;
   }
+
+  .loader {
+    @extend %flexCenter;
+
+    @apply w-full h-full top-0 left-0;
+
+    position: absolute;
+    background: white;
+  }
 }
