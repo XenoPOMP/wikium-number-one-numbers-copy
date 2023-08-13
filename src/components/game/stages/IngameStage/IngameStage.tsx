@@ -27,7 +27,7 @@ const montserrat = Montserrat({
 
 const IngameStage: FC<IngameStageProps> = ({}) => {
   /** Прошедшее время. */
-  const [lastedTime, setLastedTime] = useState<number>(60);
+  const [lastedTime, setLastedTime] = useState<number>(60 * 10);
   /** Заработанные очки. */
   const [score, setScore] = useState<number>(0);
   /** Серия успешных ответов. */
@@ -62,10 +62,10 @@ const IngameStage: FC<IngameStageProps> = ({}) => {
     numbers: Record<'columns' | 'rows', number>;
   } => {
     /**
-     * Если уровень равен 4 или более, то размер сетки -
+     * Если уровень больше или равен 4 и меньше 6, то размер сетки -
      * 4 на 3.
      */
-    if (level >= 4) {
+    if (level >= 4 && level < 6) {
       return {
         css: {
           gridTemplateColumns: 'repeat(4, 1fr)',
@@ -74,6 +74,23 @@ const IngameStage: FC<IngameStageProps> = ({}) => {
         numbers: {
           columns: 4,
           rows: 3,
+        },
+      };
+    }
+
+    /**
+     * Если уровень равен 6 или более, то размер сетки -
+     * 4 на 4.
+     */
+    if (level >= 6) {
+      return {
+        css: {
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          gridTemplateRows: 'repeat(4, 1fr)',
+        },
+        numbers: {
+          columns: 4,
+          rows: 4,
         },
       };
     }
@@ -102,11 +119,19 @@ const IngameStage: FC<IngameStageProps> = ({}) => {
     setIsGameLoading(true);
 
     const generateNumber = (): number => {
-      if ([1, 2].includes(level)) {
+      // if ([1, 2].includes(level)) {
+      //   return random.int(1, 99);
+      // }
+
+      if (level >= 1 && level <= 2) {
         return random.int(1, 99);
       }
 
-      return random.int(1, 999);
+      if (level > 2 && level <= 6) {
+        return random.int(1, 999);
+      }
+
+      return random.int(1, 9999);
     };
 
     const { columns, rows } = getSizes().numbers;
@@ -353,7 +378,14 @@ const IngameStage: FC<IngameStageProps> = ({}) => {
         )}
 
         {currentStage === GameStage.RESULTS && (
-          <div className={cn('w-full h-full bg-[red]')}>Results</div>
+          <div
+            className={cn(
+              'w-full h-full flex justify-center items-center',
+              styles.results
+            )}
+          >
+            Results
+          </div>
         )}
       </BaseGameStage>
     </IngameContext.Provider>

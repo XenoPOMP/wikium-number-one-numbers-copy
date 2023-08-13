@@ -82,8 +82,12 @@ const Block: FC<IBlock> = ({
   const getInlineClasses = (): string => {
     let levelClass = '';
 
-    if (level >= 4) {
+    if (level >= 4 && level < 6) {
       levelClass = cn(levelClass, styles.fourCols);
+    }
+
+    if (level >= 6) {
+      levelClass = cn(levelClass, styles.fourCols, styles.threeRows);
     }
 
     return cn(levelClass);

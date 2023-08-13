@@ -16,6 +16,11 @@
     --column-count: 5;
   }
 
+  &.threeRows {
+    // aspect-ratio: unset;
+    aspect-ratio: 145.5 / (83.313 / 1.25);
+  }
+
   &:hover {
     box-shadow: 0 0 15px 0 rgba(0,0,0,.3);
   }
