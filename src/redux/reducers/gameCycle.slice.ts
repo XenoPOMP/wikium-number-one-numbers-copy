@@ -12,7 +12,7 @@ export type GameCycleState = {
 
 const initialState: GameCycleState = {
   // stage: GameStage.TUTORIAL,
-  stage: GameStage.INGAME,
+  stage: GameStage.RESULTS,
 };
 
 const gameCycleSlice = createSlice({
@@ -22,9 +22,13 @@ const gameCycleSlice = createSlice({
     nextStage(state, action: ReduxAction<undefined>) {
       state.stage++;
     },
+
+    changeStage(state, action: ReduxAction<GameCycleState['stage']>) {
+      state.stage = action.payload;
+    },
   },
 });
 
 export default gameCycleSlice.reducer;
-export const { nextStage } = gameCycleSlice.actions;
+export const { nextStage, changeStage } = gameCycleSlice.actions;
 export const initialGameCycleState = gameCycleSlice.getInitialState();

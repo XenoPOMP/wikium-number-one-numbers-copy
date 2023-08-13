@@ -13,6 +13,7 @@ import Block from '@/src/components/game/stages/IngameStage/Block/Block';
 import { IBlock } from '@/src/components/game/stages/IngameStage/Block/Block.props';
 import IngameContext from '@/src/components/game/stages/IngameStage/Ingame.context';
 import EndlessTimer from '@/src/components/logic/EndlessTimer/EndlessTimer';
+import Button from '@/src/components/ui/Button/Button';
 import Loader from '@/src/components/ui/Loader/Loader';
 import { GameStage } from '@/src/enums/GameStage';
 import useBoolean from '@/src/hooks/useBoolean';
@@ -27,7 +28,7 @@ const montserrat = Montserrat({
 
 const IngameStage: FC<IngameStageProps> = ({}) => {
   /** Прошедшее время. */
-  const [lastedTime, setLastedTime] = useState<number>(60 * 10);
+  const [lastedTime, setLastedTime] = useState<number>(60);
   /** Заработанные очки. */
   const [score, setScore] = useState<number>(0);
   /** Серия успешных ответов. */
@@ -51,7 +52,7 @@ const IngameStage: FC<IngameStageProps> = ({}) => {
    * Хук, предоставляющий интерфейс для взаимодействия с
    * состояниями игры.
    */
-  const { goToNextStage, currentStage } = useGameCycle();
+  const { goToNextStage, currentStage, setStage } = useGameCycle();
 
   /**
    * Эта функция позволяет получить размеры
@@ -380,11 +381,21 @@ const IngameStage: FC<IngameStageProps> = ({}) => {
         {currentStage === GameStage.RESULTS && (
           <div
             className={cn(
-              'w-full h-full flex justify-center items-center',
+              'w-full h-full flex flex-col gap-[1em] justify-center items-center',
               styles.results
             )}
           >
-            Results
+            <h2 className={cn(montserrat.className)}>
+              Ваш результат: <strong>{score}</strong>
+            </h2>
+
+            <Button
+              onClick={() => {
+                setStage(GameStage.COUNTDOWN);
+              }}
+            >
+              Попробовать еще раз
+            </Button>
           </div>
         )}
       </BaseGameStage>

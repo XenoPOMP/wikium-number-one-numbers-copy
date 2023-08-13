@@ -10,6 +10,7 @@ import eyeIcon from '@/public/eye-icon.svg';
 import numbersImage from '@/public/numbers-image-1.svg';
 import BaseStage from '@/src/components/game/stages/BaseStage/BaseStage';
 import StageStep from '@/src/components/game/stages/TutorialStage/StageStep/StageStep';
+import Button from '@/src/components/ui/Button/Button';
 import { useGameCycle } from '@/src/hooks/useGameCycle';
 import { useAppDispatch } from '@/src/redux/hooks';
 import { nextStage } from '@/src/redux/reducers/gameCycle.slice';
@@ -69,14 +70,14 @@ const TutorialStage: FC<TutorialStageProps> = ({}) => {
           />
         </ul>
 
-        <button
-          className={cn(styles.nextStepButton)}
+        <Button
           onClick={() => {
             goToNextStage();
           }}
+          className={cn('mt-[2.5em]')}
         >
           Далее
-        </button>
+        </Button>
       </article>
     </BaseStage>
   );

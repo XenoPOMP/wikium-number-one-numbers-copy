@@ -6,6 +6,7 @@ import { GameStage } from '@/src/enums/GameStage';
 import { useAppDispatch, useTypedSelector } from '@/src/redux/hooks';
 import {
   GameCycleState,
+  changeStage,
   nextStage,
 } from '@/src/redux/reducers/gameCycle.slice';
 
@@ -15,6 +16,7 @@ import {
 export const useGameCycle = (): {
   currentStage: GameStage;
   goToNextStage: () => void;
+  setStage: (newStage: GameStage) => void;
 } => {
   const { stage }: GameCycleState = useTypedSelector(state => state.gameCycle);
 
@@ -24,8 +26,13 @@ export const useGameCycle = (): {
     dispatch(nextStage());
   }, []);
 
+  const setStage = useCallback((newStage: GameStage) => {
+    dispatch(changeStage(newStage));
+  }, []);
+
   return {
     currentStage: stage,
     goToNextStage,
+    setStage,
   };
 };

@@ -86,20 +86,5 @@ article.tutorial {
         }
       }
     }
-
-    button.nextStepButton {
-      @apply py-[1em] px-[3.5em] mt-[2.5em];
-
-      color: white;
-      font-size: .8em; // 1em = 16px
-      background: #6039aa;
-      border: 1px solid #6039aa;
-      line-height: 1.4;
-      text-transform: uppercase;
-      font-weight: 500;
-      border-radius: 10em;
-      width: min-content;
-      place-self: center;
-    }
   }
 }

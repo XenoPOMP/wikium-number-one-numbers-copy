@@ -107,5 +107,9 @@
 }
 
 .results {
-  @apply bg-[red] bg-opacity-[.5];
+  // @apply bg-[red] bg-opacity-[.5];
+
+  h2 {
+    font-weight: 700;
+  }
 }
