@@ -1,0 +1,100 @@
+@import "src/styles/templates";
+
+article.stageBody {
+  @extend %flexCenter, %notSelectable;
+
+  @apply pt-[3em] pb-[1.5em] px-[3.75em] flex-col;
+
+  width: 100%;
+  height: 100%;
+  background: #4db8ec;
+  cursor: pointer;
+  font-size: 1em; // 1em = 20px
+  justify-content: space-between;
+
+  header {
+    @extend %flexCenter;
+
+    @apply py-[1.33em] px-[1.055em];
+
+    font-size: .9em; // 1em = 18px
+    box-shadow: 0 7px 35px 0 rgba(0,0,0,.3);
+    color: white;
+    width: 100%;
+    justify-content: space-between;
+
+    p {
+      font-weight: 600;
+
+      &.number {
+        font-size: 2.77em;
+      }
+    }
+  }
+
+  .grid {
+    $colGap: 1em;
+    $rowGap: .8em;
+
+    $blockWidth: calc((100cqw - $colGap) / 3);
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
+    gap: $rowGap $colGap;
+    position: relative;
+    container-type: inline-size;
+
+    .block {
+      @extend %flexCenter;
+
+      width: 100%;
+      aspect-ratio: 145.5 / 83.313;
+      font-size: 2em;
+      font-weight: 600;
+      color: white;
+
+      &.transparent {
+        opacity: .5;
+      }
+    }
+
+    img.hand {
+      position: absolute;
+      top: calc((50% - $rowGap / 2) / 1.2);
+      left: calc($blockWidth / 10);
+      z-index: 2;
+
+      animation: handHangoutAnimation 5s ease-out infinite forwards;
+
+      @keyframes handHangoutAnimation {
+        0%, 95%, 100% {
+          top: calc((50% - $rowGap / 2) / 1.2);
+          left: calc($blockWidth / 10);
+        }
+
+        20%, 25% {
+          top: calc((50% - $rowGap / 2) / 1.2);
+          left: calc(($blockWidth * 2) / 1.6);
+        }
+
+        45%, 50% {
+          top: calc((100% - $rowGap / 2) / 1.05);
+          left: calc($blockWidth / 10);
+        }
+
+        70%, 75% {
+          top: calc((50% - $rowGap / 2) / 1.2);
+          left: calc((100% - $blockWidth) / .95);
+        }
+      }
+    }
+  }
+
+  footer {
+    font-size: .7em; // 1em = 14px
+    color: white;
+    text-align: center;
+    font-weight: 700;
+  }
+}

@@ -1,0 +1,21 @@
+@import "src/styles/templates";
+
+article.countdownBody {
+  @extend %flexCenter, %notSelectable;
+
+  background: #1F4A5E;
+  font-size: 1em; // 1em = 20px
+
+  .timeLast {
+    @extend %flexCenter;
+
+    @apply aspect-square;
+
+    font-size: 2em;
+    color: white;
+    font-weight: 600;
+    background: #63818F;
+    border-radius: 50%;
+    width: 2.5em;
+  }
+}
