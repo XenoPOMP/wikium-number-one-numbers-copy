@@ -11,8 +11,7 @@ export type GameCycleState = {
 };
 
 const initialState: GameCycleState = {
-  // stage: GameStage.TUTORIAL,
-  stage: GameStage.RESULTS,
+  stage: GameStage.TUTORIAL,
 };
 
 const gameCycleSlice = createSlice({
