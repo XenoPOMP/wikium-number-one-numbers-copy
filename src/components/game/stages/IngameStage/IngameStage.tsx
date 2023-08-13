@@ -27,7 +27,7 @@ const montserrat = Montserrat({
 
 const IngameStage: FC<IngameStageProps> = ({}) => {
   /** Прошедшее время. */
-  const [lastedTime, setLastedTime] = useState<number>(60 * 0.1);
+  const [lastedTime, setLastedTime] = useState<number>(60);
   /** Заработанные очки. */
   const [score, setScore] = useState<number>(0);
   /** Серия успешных ответов. */
